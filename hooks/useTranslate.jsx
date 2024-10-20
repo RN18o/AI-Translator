@@ -2,8 +2,8 @@ import { useEffect, useState } from "react";
 import Groq from "groq-sdk";
 
 const groq = new Groq({
-  apiKey: "process.env.GROQ_API_KEY",
-  dangerouslyAllowBrowser: true,
+  apiKey: "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",
+  dangerouslyAllowBrowser: "true",
 });
 
 const useTranslate = (sourceText, selectedLanguage) => {
