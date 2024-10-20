@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import Groq from "groq-sdk";
 
 const groq = new Groq({
-  apiKey: "process.env.GROQ_API_KEY",
+  apiKey: "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",
   dangerouslyAllowBrowser: true,
 });
 
@@ -12,7 +12,7 @@ const useTranslate = (sourceText, selectedLanguage) => {
   useEffect(() => {
     const handleTranslate = async (sourceText) => {
       try {
-        const response = groq.chat.completions.create({
+        const response = await groq.chat.completions.create({
           messages: [
             {
               role: "user",
@@ -26,13 +26,21 @@ const useTranslate = (sourceText, selectedLanguage) => {
           model: "llama3-8b-8192",
         });
 
-        const data = response.choices[0]?.message?.content || "";
-        setTargetText(data);
+        if (
+          response.choices &&
+          response.choices[0] &&
+          response.choices[0].message &&
+          response.choices[0].message.content
+        ) {
+          const data = response.choices[0].message.content;
+          setTargetText(data);
+        } else {
+          setTargetText("");
+        }
       } catch (error) {
         console.error("Error translating text:", error);
       }
     };
-
     if (sourceText.trim()) {
       const timeoutId = setTimeout(() => {
         handleTranslate(sourceText);
